@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/movies")
 @RequiredArgsConstructor
@@ -20,7 +20,7 @@ public class MovieController {
 
     private final IMovieService movieService;
 
-    @GetMapping
+    @GetMapping("/findAllMovies")
     public ResponseEntity<List<MovieDTO>> getAllMovies() {
         List<MovieDTO> movieList = movieService.findAllMovies().stream()
                 .map(this::mapToDTO)
@@ -28,20 +28,27 @@ public class MovieController {
         return ResponseEntity.ok(movieList);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/movieById/{id}")
     public ResponseEntity<MovieDTO> getMovieById(@PathVariable Long id) {
         Movie movie = movieService.findMovieById(id);
         return ResponseEntity.ok(mapToDTO(movie));
     }
 
-    @PostMapping
+
+    @GetMapping("/movieByTitle")
+    public ResponseEntity<MovieDTO> getMovieByTitle(@RequestParam("value") String title) {
+        Movie movie = movieService.findByTitle(title);
+        return ResponseEntity.ok(mapToDTO(movie));
+    }
+
+    @PostMapping("/saveMovie")
     public ResponseEntity<Void> createMovie(@RequestBody @Valid MovieDTO movieDTO) throws URISyntaxException {
         Movie movie = mapToEntity(movieDTO);
         movieService.saveMovie(movie);
         return ResponseEntity.created(new URI("/api/movies")).build();
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/updateMovie/{id}")
     public ResponseEntity<String> updateMovie(@PathVariable Long id, @RequestBody @Valid MovieDTO movieDTO) {
         Movie movie = movieService.findMovieById(id);
         movie.setTitle(movieDTO.getTitle());
@@ -54,13 +61,13 @@ public class MovieController {
         return ResponseEntity.ok("Película actualizada");
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/deleteMovieById/{id}")
     public ResponseEntity<String> deleteMovie(@PathVariable Long id) {
         movieService.deleteMovieById(id);
         return ResponseEntity.ok("Película eliminada");
     }
 
-    
+
     private MovieDTO mapToDTO(Movie movie) {
         return MovieDTO.builder()
                 .id(movie.getId())

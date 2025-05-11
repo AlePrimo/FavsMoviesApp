@@ -1,4 +1,4 @@
-package com.aleprimo.FavsMoviesApp;
+package com.aleprimo.favsMoviesApp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

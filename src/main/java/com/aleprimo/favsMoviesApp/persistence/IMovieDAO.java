@@ -1,9 +1,9 @@
-package com.aleprimo.FavsMoviesApp.persistence;
+package com.aleprimo.favsMoviesApp.persistence;
 
-import com.aleprimo.FavsMoviesApp.entities.Movie;
+import com.aleprimo.favsMoviesApp.entities.Movie;
 
 import java.util.List;
-import java.util.Optional;
+
 
 public interface IMovieDAO {
 

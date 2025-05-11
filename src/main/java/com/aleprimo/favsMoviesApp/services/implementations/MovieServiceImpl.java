@@ -1,8 +1,8 @@
-package com.aleprimo.FavsMoviesApp.services.implementations;
+package com.aleprimo.favsMoviesApp.services.implementations;
 
-import com.aleprimo.FavsMoviesApp.entities.Movie;
-import com.aleprimo.FavsMoviesApp.persistence.IMovieDAO;
-import com.aleprimo.FavsMoviesApp.services.IMovieService;
+import com.aleprimo.favsMoviesApp.entities.Movie;
+import com.aleprimo.favsMoviesApp.persistence.IMovieDAO;
+import com.aleprimo.favsMoviesApp.services.IMovieService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

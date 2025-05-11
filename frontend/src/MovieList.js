@@ -5,10 +5,25 @@ function MovieList() {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
+    fetchMovies();
+  }, []);
+
+  const fetchMovies = () => {
     axios.get("http://localhost:8080/api/movies/findAllMovies")
       .then(response => setMovies(response.data))
       .catch(error => console.error("Error al obtener películas:", error));
-  }, []);
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await fetch(`http://localhost:8080/api/movies/deleteMovieById/${id}`, {
+        method: 'DELETE',
+      });
+      setMovies(movies.filter(movie => movie.id !== id));
+    } catch (error) {
+      console.error('Error al eliminar la película:', error);
+    }
+  };
 
   return (
     <div>
@@ -20,6 +35,7 @@ function MovieList() {
             <br />
             <em>{movie.director}</em> - {movie.genres.join(", ")}
             <p>{movie.description}</p>
+            <button onClick={() => handleDelete(movie.id)}>Eliminar</button>
           </li>
         ))}
       </ul>

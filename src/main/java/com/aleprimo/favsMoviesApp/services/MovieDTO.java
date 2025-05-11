@@ -1,4 +1,4 @@
-package com.aleprimo.FavsMoviesApp.services;
+package com.aleprimo.favsMoviesApp.services;
 
 
 import jakarta.validation.constraints.*;

@@ -1,9 +1,9 @@
-package com.aleprimo.FavsMoviesApp.controllers;
+package com.aleprimo.favsMoviesApp.controllers;
 
 
-import com.aleprimo.FavsMoviesApp.entities.Movie;
-import com.aleprimo.FavsMoviesApp.services.IMovieService;
-import com.aleprimo.FavsMoviesApp.services.MovieDTO;
+import com.aleprimo.favsMoviesApp.entities.Movie;
+import com.aleprimo.favsMoviesApp.services.IMovieService;
+import com.aleprimo.favsMoviesApp.services.MovieDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3001")
 @RestController
 @RequestMapping("/api/movies")
 @RequiredArgsConstructor

@@ -1,4 +1,4 @@
-package com.aleprimo.FavsMoviesApp.entities;
+package com.aleprimo.favsMoviesApp.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMax;

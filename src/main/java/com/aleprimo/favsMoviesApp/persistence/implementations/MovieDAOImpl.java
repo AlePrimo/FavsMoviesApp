@@ -1,8 +1,8 @@
-package com.aleprimo.FavsMoviesApp.persistence.implementations;
+package com.aleprimo.favsMoviesApp.persistence.implementations;
 
-import com.aleprimo.FavsMoviesApp.entities.Movie;
-import com.aleprimo.FavsMoviesApp.persistence.IMovieDAO;
-import com.aleprimo.FavsMoviesApp.repositories.IMovieRepository;
+import com.aleprimo.favsMoviesApp.entities.Movie;
+import com.aleprimo.favsMoviesApp.persistence.IMovieDAO;
+import com.aleprimo.favsMoviesApp.repositories.IMovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

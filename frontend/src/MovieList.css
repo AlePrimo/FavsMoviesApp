@@ -1,0 +1,87 @@
+.movie-container {
+  padding: 2rem;
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+}
+
+.movie-title {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.search-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.search-input {
+  padding: 0.5rem;
+  font-size: 1rem;
+  width: 100%;
+  max-width: 300px;
+}
+
+.year-search {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.search-btn,
+.reset-btn {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  background-color: #0d6efd;
+  color: white;
+  border-radius: 4px;
+}
+
+.reset-btn {
+  background-color: #198754;
+}
+
+.movie-list {
+  list-style: none;
+  padding: 0;
+}
+
+.movie-card {
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.movie-actions {
+  margin-top: 0.5rem;
+}
+
+.edit-btn,
+.delete-btn {
+  margin-right: 0.5rem;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.edit-btn {
+  background-color: #ffc107;
+  color: #000;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: white;
+}
+
+.no-results {
+  color: #666;
+  font-style: italic;
+}

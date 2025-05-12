@@ -28,6 +28,11 @@ public class MovieServiceImpl implements IMovieService {
     }
 
     @Override
+    public List<Movie> findByYear(int year) {
+        return this.movieDAO.findByYear(year);
+    }
+
+    @Override
     public void saveMovie(Movie movie) {
         if (movie.getTitle() == null || movie.getTitle().isBlank()) {
             throw new IllegalArgumentException("El título no puede estar vacío");

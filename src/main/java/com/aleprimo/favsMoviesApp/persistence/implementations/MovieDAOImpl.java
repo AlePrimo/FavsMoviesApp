@@ -31,6 +31,11 @@ public class MovieDAOImpl implements IMovieDAO {
     }
 
     @Override
+    public List<Movie> findByYear(int year) {
+        return this.movieRepository.findByYear(year);
+    }
+
+    @Override
     public void saveMovie(Movie movie) {
        this.movieRepository.save(movie);
     }

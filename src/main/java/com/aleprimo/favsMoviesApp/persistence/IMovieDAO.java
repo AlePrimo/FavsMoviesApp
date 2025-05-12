@@ -10,6 +10,7 @@ public interface IMovieDAO {
     List<Movie> findAllMovies();
     Movie findMovieById(Long id);
     Movie findByTitle(String title);
+    List<Movie> findByYear(int year);
     void saveMovie(Movie movie);
     void deleteMovieById(Long id);
 

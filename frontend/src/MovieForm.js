@@ -21,6 +21,15 @@ function MovieForm({ movieToEdit, onSuccess }) {
         genres: movieToEdit.genres.join(", ") || "",
         rating: movieToEdit.rating || ""
       });
+    } else {
+      setForm({
+        title: "",
+        description: "",
+        director: "",
+        year: "",
+        genres: "",
+        rating: ""
+      });
     }
   }, [movieToEdit]);
 
@@ -50,16 +59,7 @@ function MovieForm({ movieToEdit, onSuccess }) {
         await axios.post("http://localhost:8080/api/movies/saveMovie", movieData);
       }
 
-      setForm({
-        title: "",
-        description: "",
-        director: "",
-        year: "",
-        genres: "",
-        rating: ""
-      });
-
-      onSuccess(); // Actualiza la lista en el componente padre
+      onSuccess();
     } catch (error) {
       console.error("Error al guardar la película:", error);
     }

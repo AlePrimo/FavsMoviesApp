@@ -31,7 +31,7 @@ function MovieList() {
 
   const handleSuccess = () => {
     fetchMovies();
-    setMovieToEdit(null); // Limpiar formulario
+    setMovieToEdit(null);
   };
 
   return (

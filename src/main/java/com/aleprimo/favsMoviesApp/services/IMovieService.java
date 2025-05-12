@@ -8,6 +8,7 @@ public interface IMovieService {
 
     List<Movie> findAllMovies();
     Movie findMovieById(Long id);
+    List<Movie> findByYear(int year);
     void saveMovie(Movie movie);
     void deleteMovieById(Long id);
     Movie findByTitle(String title);

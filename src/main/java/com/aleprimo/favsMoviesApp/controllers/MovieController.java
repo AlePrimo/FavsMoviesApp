@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-@CrossOrigin(origins = "http://localhost:3001")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/movies")
 @RequiredArgsConstructor
@@ -40,6 +40,20 @@ public class MovieController {
         Movie movie = movieService.findByTitle(title);
         return ResponseEntity.ok(mapToDTO(movie));
     }
+
+    @GetMapping("/movieByYear")
+    public ResponseEntity<List<MovieDTO>> getMoviesByYear(@RequestParam("value") int year) {
+       List<Movie> movieList= this.movieService.findByYear(year);
+        List<MovieDTO> dtoList = movieList.stream()
+                .map(this::mapToDTO)
+                .toList();
+
+        return ResponseEntity.ok(dtoList);
+    }
+
+
+
+
 
     @PostMapping("/saveMovie")
     public ResponseEntity<Void> createMovie(@RequestBody @Valid MovieDTO movieDTO) throws URISyntaxException {

@@ -2,14 +2,16 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 function MovieForm({ movieToEdit, onSuccess }) {
-  const [form, setForm] = useState({
+  const initialForm = {
     title: "",
     description: "",
     director: "",
     year: "",
     genres: "",
     rating: ""
-  });
+  };
+
+  const [form, setForm] = useState(initialForm);
 
   useEffect(() => {
     if (movieToEdit) {
@@ -22,14 +24,7 @@ function MovieForm({ movieToEdit, onSuccess }) {
         rating: movieToEdit.rating || ""
       });
     } else {
-      setForm({
-        title: "",
-        description: "",
-        director: "",
-        year: "",
-        genres: "",
-        rating: ""
-      });
+      setForm(initialForm); // Asegura que se limpie al salir del modo edición
     }
   }, [movieToEdit]);
 
@@ -57,9 +52,10 @@ function MovieForm({ movieToEdit, onSuccess }) {
         await axios.put(`http://localhost:8080/api/movies/updateMovie/${movieToEdit.id}`, movieData);
       } else {
         await axios.post("http://localhost:8080/api/movies/saveMovie", movieData);
+        setForm(initialForm); // ✔ Vaciar el formulario si se guardó una nueva
       }
 
-      onSuccess();
+      if (onSuccess) onSuccess();
     } catch (error) {
       console.error("Error al guardar la película:", error);
     }

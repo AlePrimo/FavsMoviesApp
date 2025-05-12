@@ -47,11 +47,11 @@ this.movieDAO.deleteMovieById(id);
     }
 
     @Override
-    public Movie findByTitle(String title) {
-        Movie movie = this.movieDAO.findByTitle(title);
-        if (movie == null) {
-            throw new NoSuchElementException("Película con título '" + title + "' no encontrada");
+    public List<Movie> findByTitle(String title) {
+        List<Movie> movieList = this.movieDAO.findByTitle(title);
+        if (movieList == null) {
+            throw new NoSuchElementException("No existen peliculas con ese titulo");
         }
-        return movie;
+        return movieList;
     }
 }

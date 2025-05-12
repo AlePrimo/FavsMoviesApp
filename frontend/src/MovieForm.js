@@ -2,16 +2,14 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 function MovieForm({ movieToEdit, onSuccess }) {
-  const initialForm = {
+  const [form, setForm] = useState({
     title: "",
     description: "",
     director: "",
     year: "",
     genres: "",
     rating: ""
-  };
-
-  const [form, setForm] = useState(initialForm);
+  });
 
   useEffect(() => {
     if (movieToEdit) {
@@ -24,7 +22,14 @@ function MovieForm({ movieToEdit, onSuccess }) {
         rating: movieToEdit.rating || ""
       });
     } else {
-      setForm(initialForm); // Asegura que se limpie al salir del modo edición
+      setForm({
+        title: "",
+        description: "",
+        director: "",
+        year: "",
+        genres: "",
+        rating: ""
+      });
     }
   }, [movieToEdit]);
 
@@ -52,27 +57,45 @@ function MovieForm({ movieToEdit, onSuccess }) {
         await axios.put(`http://localhost:8080/api/movies/updateMovie/${movieToEdit.id}`, movieData);
       } else {
         await axios.post("http://localhost:8080/api/movies/saveMovie", movieData);
-        setForm(initialForm); // ✔ Vaciar el formulario si se guardó una nueva
       }
 
-      if (onSuccess) onSuccess();
+      setForm({
+        title: "",
+        description: "",
+        director: "",
+        year: "",
+        genres: "",
+        rating: ""
+      });
+
+      onSuccess();
     } catch (error) {
       console.error("Error al guardar la película:", error);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>{movieToEdit ? "Editar película" : "Agregar nueva película"}</h2>
+    <form onSubmit={handleSubmit} className="mb-4 p-4 border rounded shadow-sm bg-light">
+      <h4 className="mb-3">{movieToEdit ? "Editar película" : "Agregar nueva película"}</h4>
 
-      <input type="text" name="title" placeholder="Título" value={form.title} onChange={handleChange} required />
-      <input type="text" name="description" placeholder="Descripción" value={form.description} onChange={handleChange} required />
-      <input type="text" name="director" placeholder="Director" value={form.director} onChange={handleChange} required />
-      <input type="number" name="year" placeholder="Año" value={form.year} onChange={handleChange} required />
-      <input type="text" name="genres" placeholder="Géneros (separados por coma)" value={form.genres} onChange={handleChange} required />
-      <input type="number" step="0.1" name="rating" placeholder="Rating" value={form.rating} onChange={handleChange} required />
+      {["title", "description", "director", "year", "genres", "rating"].map(field => (
+        <div className="mb-3" key={field}>
+          <input
+            type={field === "year" || field === "rating" ? "number" : "text"}
+            name={field}
+            placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+            value={form[field]}
+            onChange={handleChange}
+            className="form-control"
+            step={field === "rating" ? "0.1" : undefined}
+            required
+          />
+        </div>
+      ))}
 
-      <button type="submit">{movieToEdit ? "Actualizar" : "Guardar"}</button>
+      <button type="submit" className="btn btn-success">
+        {movieToEdit ? "Actualizar" : "Guardar"}
+      </button>
     </form>
   );
 }

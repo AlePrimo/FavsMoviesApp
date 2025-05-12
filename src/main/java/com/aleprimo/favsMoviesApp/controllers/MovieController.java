@@ -36,9 +36,11 @@ public class MovieController {
 
 
     @GetMapping("/movieByTitle")
-    public ResponseEntity<MovieDTO> getMovieByTitle(@RequestParam("value") String title) {
-        Movie movie = movieService.findByTitle(title);
-        return ResponseEntity.ok(mapToDTO(movie));
+    public ResponseEntity<List<MovieDTO>> getMovieByTitle(@RequestParam("value") String title) {
+        List<Movie> movies = movieService.findByTitle(title);
+        List<MovieDTO> movieDTOs = movies.stream().map(this::mapToDTO).toList();
+        return ResponseEntity.ok(movieDTOs);
+
     }
 
     @GetMapping("/movieByYear")

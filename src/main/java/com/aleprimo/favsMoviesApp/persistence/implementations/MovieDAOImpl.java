@@ -26,7 +26,7 @@ public class MovieDAOImpl implements IMovieDAO {
     }
 
     @Override
-    public Movie findByTitle(String title) {
+    public List<Movie> findByTitle(String title) {
         return this.movieRepository.findByTitle(title);
     }
 

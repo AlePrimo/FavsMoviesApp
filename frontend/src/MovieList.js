@@ -5,23 +5,43 @@ import MovieForm from "./MovieForm";
 function MovieList() {
   const [movies, setMovies] = useState([]);
   const [movieToEdit, setMovieToEdit] = useState(null);
-  const [searchTitle, setSearchTitle] = useState("");
-  const [searchYear, setSearchYear] = useState("");
-
-  const fetchMovies = () => {
-    axios.get("http://localhost:8080/api/movies/findAllMovies")
-      .then(response => setMovies(response.data))
-      .catch(error => console.error("Error al obtener películas:", error));
-  };
+  const [titleQuery, setTitleQuery] = useState("");
+  const [yearQuery, setYearQuery] = useState("");
 
   useEffect(() => {
     fetchMovies();
   }, []);
 
+  useEffect(() => {
+    if (titleQuery.trim() === "") {
+      fetchMovies();
+      return;
+    }
+
+    const delayDebounce = setTimeout(() => {
+      axios
+        .get(`http://localhost:8080/api/movies/movieByTitle?value=${titleQuery}`)
+        .then((response) => {
+          // Si el back devuelve una lista:
+          setMovies(Array.isArray(response.data) ? response.data : [response.data]);
+        })
+        .catch(() => setMovies([]));
+    }, 300);
+
+    return () => clearTimeout(delayDebounce);
+  }, [titleQuery]);
+
+  const fetchMovies = () => {
+    axios
+      .get("http://localhost:8080/api/movies/findAllMovies")
+      .then((response) => setMovies(response.data))
+      .catch((error) => console.error("Error al obtener películas:", error));
+  };
+
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:8080/api/movies/deleteMovieById/${id}`);
-      setMovies(movies.filter(movie => movie.id !== id));
+      setMovies(movies.filter((movie) => movie.id !== id));
     } catch (error) {
       console.error("Error al eliminar la película:", error);
     }
@@ -36,78 +56,66 @@ function MovieList() {
     setMovieToEdit(null);
   };
 
-  const handleSearchByTitle = async () => {
-    try {
-      const response = await axios.get(`http://localhost:8080/api/movies/movieByTitle`, {
-        params: { value: searchTitle }
-      });
-      setMovies([response.data]); // se espera una sola película
-    } catch (error) {
-      console.error("Error al buscar por título:", error);
-      setMovies([]);
-    }
+  const handleReset = () => {
+    setTitleQuery("");
+    setYearQuery("");
+    fetchMovies();
   };
 
   const handleSearchByYear = async () => {
+    if (yearQuery.trim() === "") return;
     try {
-      const response = await axios.get(`http://localhost:8080/api/movies/movieByYear`, {
-        params: { value: searchYear }
-      });
-      setMovies(response.data); // se espera una lista
+      const response = await axios.get(`http://localhost:8080/api/movies/movieByYear?value=${yearQuery}`);
+      setMovies(response.data); // se asume que devuelve una lista
     } catch (error) {
       console.error("Error al buscar por año:", error);
       setMovies([]);
     }
   };
 
-  const handleClearSearch = () => {
-    setSearchTitle("");
-    setSearchYear("");
-    fetchMovies();
-  };
-
   return (
     <div>
       <MovieForm movieToEdit={movieToEdit} onSuccess={handleSuccess} />
 
-      <h2>Buscar películas</h2>
-      <div>
+      <h2>🎬 Listado de películas</h2>
+
+      <div style={{ marginBottom: "1rem" }}>
         <input
           type="text"
-          placeholder="Buscar por título"
-          value={searchTitle}
-          onChange={(e) => setSearchTitle(e.target.value)}
+          placeholder="Buscar por título..."
+          value={titleQuery}
+          onChange={(e) => setTitleQuery(e.target.value)}
         />
-        <button onClick={handleSearchByTitle}>Buscar por título</button>
       </div>
 
-      <div>
+      <div style={{ marginBottom: "1rem" }}>
         <input
           type="number"
-          placeholder="Buscar por año"
-          value={searchYear}
-          onChange={(e) => setSearchYear(e.target.value)}
+          placeholder="Buscar por año..."
+          value={yearQuery}
+          onChange={(e) => setYearQuery(e.target.value)}
         />
-        <button onClick={handleSearchByYear}>Buscar por año</button>
+        <button onClick={handleSearchByYear}>Buscar</button>
       </div>
 
-      <div>
-        <button onClick={handleClearSearch}>Limpiar búsqueda</button>
-      </div>
+      <button onClick={handleReset}>Mostrar todas</button>
 
-      <h2>Listado de películas</h2>
-      <ul>
-        {movies.map(movie => (
-          <li key={movie.id}>
-            <strong>{movie.title}</strong> ({movie.year}) - ⭐ {movie.rating}
-            <br />
-            <em>{movie.director}</em> - {movie.genres.join(", ")}
-            <p>{movie.description}</p>
-            <button onClick={() => handleEdit(movie)}>Editar</button>
-            <button onClick={() => handleDelete(movie.id)}>Eliminar</button>
-          </li>
-        ))}
-      </ul>
+      {movies.length === 0 ? (
+        <p>No se encontraron películas.</p>
+      ) : (
+        <ul>
+          {movies.map((movie) => (
+            <li key={movie.id}>
+              <strong>{movie.title}</strong> ({movie.year}) - ⭐ {movie.rating}
+              <br />
+              <em>{movie.director}</em> - {movie.genres.join(", ")}
+              <p>{movie.description}</p>
+              <button onClick={() => handleEdit(movie)}>Editar</button>
+              <button onClick={() => handleDelete(movie.id)}>Eliminar</button>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

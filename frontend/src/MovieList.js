@@ -91,18 +91,23 @@ function MovieList() {
       </div>
 
       <h2>Listado de películas</h2>
-      <ul>
-        {movies.map(movie => (
-          <li key={movie.id}>
-            <strong>{movie.title}</strong> ({movie.year}) - ⭐ {movie.rating}
+    <div>
+      {movies.map(movie => (
+        <div className="movie-card" key={movie.id}>
+          <h3>{movie.title} ({movie.year})</h3>
+          <div className="meta">
+            Dirigida por <strong>{movie.director}</strong> — ⭐ {movie.rating}
             <br />
-            <em>{movie.director}</em> - {movie.genres.join(", ")}
-            <p>{movie.description}</p>
+            Géneros: {movie.genres.join(", ")}
+          </div>
+          <p>{movie.description}</p>
+          <div className="card-buttons">
             <button onClick={() => handleEdit(movie)}>Editar</button>
             <button onClick={() => handleDelete(movie.id)}>Eliminar</button>
-          </li>
-        ))}
-      </ul>
+          </div>
+        </div>
+      ))}
+    </div>
     </div>
   );
 }

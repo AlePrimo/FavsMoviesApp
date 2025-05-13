@@ -94,13 +94,13 @@ li button {
 
 .movie-card .meta {
   font-size: 14px;
-  color: #666;
+  color: white;
   margin-bottom: 8px;
 }
 
 .movie-card p {
   margin: 10px 0;
-  color: #444;
+  color: white;
 }
 
 .card-buttons {
